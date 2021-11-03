@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Vendor Pricelist Automation https://support.targetintegration.com/issues/6180-->
+
+        <record model="base.automation" id="action_create_vendor_pricelist">
+            <field name="name">Vendor Pricelist For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+companies = env['res.company'].sudo().search([('name','in',['AMS Biotechnology (Europe) Limited (CH)','AMSBIO LLC','AMSBIO Europe BV'])])
+vendor_company = env['res.company'].sudo().search([('name','=','AMS Biotechnology (Europe) Limited')])
+for rec in records:
+  for company in companies:
+    vendor_priceList = env['product.supplierinfo'].sudo().create({
+      'company_id'      : company.id,
+      'product_tmpl_id' : rec.id,
+      'name'            : vendor_company.partner_id.id,
+      'currency_id'     : company.currency_id.id,
+    })
+            </field>
+     </record>
+
+
+    <record model="ir.cron" id="action_cron_create_vendor_pricelist">
+            <field name="name">Vendor Pricelist Cron For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">40</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+companies = env['res.company'].sudo().search([('name','in',['AMS Biotechnology (Europe) Limited (CH)','AMSBIO LLC','AMSBIO Europe BV'])])
+vendor_company = env['res.company'].sudo().search([('name','=','AMS Biotechnology (Europe) Limited')])
+for rec in env['product.template'].sudo().search([('is_vendor_updated','=',False)],limit=17000):
+  for company in companies:
+    vendor_priceList = env['product.supplierinfo'].sudo().create({
+      'company_id'      : company.id,
+      'product_tmpl_id' : rec.id,
+      'name'            : vendor_company.partner_id.id,
+      'currency_id'     : company.currency_id.id,
+    })
+  rec.write({
+    'is_vendor_updated' : True,
+  })
+            </field>
+    </record>
+    <!--  -->
+    <!-- Reordering Rule automation  https://support.targetintegration.com/issues/6730 -->
+
+        <record model="base.automation" id="action_create_reordering_rule">
+            <field name="name">Reordering Rule For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+company = env['res.company'].sudo().search([('name','in',['AMS Biotechnology (Europe) Limited'])])
+warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
+for rec in records:
+  for wh in warehouses:
+    reordering = env['stock.warehouse.orderpoint'].sudo().create({
+      'company_id'      : company.id,
+      'product_id'      : rec.product_variant_ids[0].id,
+      'location_id'     : wh.lot_stock_id.id,
+      'product_min_qty' : 0,
+      'product_max_qty' : 0,
+      'qty_multiple'    : 1,
+      'warehouse_id'    : wh.id,
+    })
+            </field>
+     </record>
+
+
+    <record model="ir.cron" id="action_cron_create_reordering_rule">
+            <field name="name">Reordering Rule Cron For Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">40</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+company = env['res.company'].sudo().search([('name','in',['AMS Biotechnology (Europe) Limited'])])
+warehouses = env['stock.warehouse'].sudo().search([("company_id","=",company.id)])
+for rec in env['product.template'].sudo().search([('is_reordering_updated','=',False)],limit=17000):
+  for wh in warehouses:
+    reordering = env['stock.warehouse.orderpoint'].sudo().create({
+      'company_id'      : company.id,
+      'product_id'      : rec.product_variant_ids[0].id,
+      'location_id'     : wh.lot_stock_id.id,
+      'product_min_qty' : 0,
+      'product_max_qty' : 0,
+      'qty_multiple'    : 1,
+      'warehouse_id'    : wh.id,
+    })
+  rec.write({
+    'is_reordering_updated' : True,
+  })
+            </field>
+    </record>
+    <!--  -->
+
+    </data>
+</odoo>

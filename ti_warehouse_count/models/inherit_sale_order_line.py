@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+# https://support.targetintegration.com/issues/6728
 
 from odoo import api, fields, models, _
 from logging import getLogger
 _logger = getLogger(__name__)
+
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+
+    is_vendor_updated = fields.Boolean('Is vendor updated',default=False)
+    is_reordering_updated = fields.Boolean('Is reordering updated',default=False)
+
 
 class Product(models.Model):
     _inherit = "product.product"
@@ -29,6 +40,8 @@ class SaleOrderLine(models.Model):
 
     uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
     uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    ch_warehouse_qty = fields.Float('Available Qty For CH Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    bv_warehouse_qty = fields.Float('Available Qty For BV Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
@@ -36,16 +49,21 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.company_id.name =='AMS Biotechnology (Europe) Limited':
                 warehouses = self.env['stock.warehouse'].sudo().search([("company_id","=",line.company_id.id)])
-                
-                if len(warehouses)==2:
+                if len(warehouses)==4:
                     line.uk_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[0])
                     line.uk_us_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[1])
+                    line.ch_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[2])
+                    line.bv_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[3])
                 else:
                     line.uk_warehouse_qty = 0
                     line.uk_us_warehouse_qty = 0
+                    line.ch_warehouse_qty = 0
+                    line.bv_warehouse_qty = 0
             else:
                     line.uk_warehouse_qty = 0
                     line.uk_us_warehouse_qty = 0
+                    line.ch_warehouse_qty = 0
+                    line.bv_warehouse_qty = 0
 
 
 
@@ -54,6 +72,8 @@ class PurchaseOrderLine(models.Model):
 
     uk_warehouse_qty = fields.Float('Available Qty For UK Warehouse', readonly=True, compute='_compute_warehouse_qty')
     uk_us_warehouse_qty = fields.Float('Available Qty For UK-US Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    ch_warehouse_qty = fields.Float('Available Qty For CH Warehouse', readonly=True, compute='_compute_warehouse_qty')
+    bv_warehouse_qty = fields.Float('Available Qty For BV Warehouse', readonly=True, compute='_compute_warehouse_qty')
 
 
     @api.depends('product_id')
@@ -61,13 +81,19 @@ class PurchaseOrderLine(models.Model):
         for line in self:
             if line.company_id.name=='AMS Biotechnology (Europe) Limited':
                 warehouses = self.env['stock.warehouse'].sudo().search([("company_id","=",line.company_id.id)])
-                if len(warehouses)==2:
+                if len(warehouses)==4:
                     line.uk_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[0])
                     line.uk_us_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[1])
+                    line.ch_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[2])
+                    line.bv_warehouse_qty = line.product_id._get_available_qty(warehouse=warehouses[3])
                 else:
                     line.uk_warehouse_qty = 0
                     line.uk_us_warehouse_qty = 0
+                    line.ch_warehouse_qty = 0
+                    line.bv_warehouse_qty = 0
             else:
                     line.uk_warehouse_qty = 0
                     line.uk_us_warehouse_qty = 0
+                    line.ch_warehouse_qty = 0
+                    line.bv_warehouse_qty = 0
 

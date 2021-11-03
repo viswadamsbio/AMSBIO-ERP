@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+# https://support.targetintegration.com/issues/5907
+# https://support.targetintegration.com/issues/5908
+
+
 from odoo import api, fields, models, tools
 from odoo.tools.translate import _
 import logging
 _logger = logging.getLogger(__name__)
-
-
 
 
 class StockBackorderConfirmation(models.TransientModel):
