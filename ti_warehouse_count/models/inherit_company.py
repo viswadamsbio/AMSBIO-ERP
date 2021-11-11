@@ -27,11 +27,12 @@ class StockMove(models.Model):
         """ On `self.move_line_ids`, assign `lot_name` according to
         `self.next_serial` before returning `self.action_show_details`.
         """
-        self.ensure_one()
-        if not self.next_serial:
-            self.next_serial = self.company_id.product_tracking_number
-            self.action_clear_lines_show_details()
-            self._generate_serial_numbers()
+        for rec in self:
+            rec.ensure_one()
+            if not rec.next_serial:
+                rec.next_serial = rec.company_id.product_tracking_number
+                rec.action_clear_lines_show_details()
+                rec._generate_serial_numbers()
         return True
 
 
@@ -65,7 +66,7 @@ class StockMove(models.Model):
                 suffix
             ))
 
-        self.company_id.product_tracking_number = '%s%s%s' % (prefix,str(int(self.company_id.product_tracking_number)+1 + i).zfill(padding),suffix)
         move_lines_commands = self._generate_serial_move_line_commands(lot_names)
         self.write({'move_line_ids': move_lines_commands})
+        self.company_id.product_tracking_number = '%s%s%s' % (prefix,str(int(self.company_id.product_tracking_number)+1 + i).zfill(padding),suffix)
         return True
