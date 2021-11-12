@@ -4,9 +4,10 @@
 # https://support.targetintegration.com/issues/6728
 
 from odoo.exceptions import UserError
-from odoo import api, fields, models, _
+from odoo import api, fields, models, SUPERUSER_ID,_
 from logging import getLogger
 _logger = getLogger(__name__)
+from odoo.osv import expression
 
 
 
@@ -111,23 +112,75 @@ class SaleOrder(models.Model):
     _sql_constraints = [('customer_ref_partner_uniq', 'unique (client_order_ref,partner_id)', _('The Customer Reference must be unique per Customer!'))]
 
 
-    @api.onchange('delivery_time_week')
-    def check_field_type(self):
-        for rec in self:
-            if rec.delivery_time_week and rec.delivery_time_week.strip()!="":
-                try:
-                    rec.delivery_time_week = int(rec.delivery_time_week.strip())
-                except Exception as e:
-                    raise UserError(_(f'Invalid Field Value.'))
-
-
-    delivery_time_week = fields.Char('Delivery Time (Weeks)')
+    delivery_time_week = fields.Integer('Delivery Time (Weeks)',default=1)
 
 
     def _action_confirm(self):
-        result = super(SaleOrder, self)._action_confirm()
+        for rec in self:
+            rec.order_line.with_context(sale_order=rec)._action_launch_stock_rule()
+        return super(SaleOrder, self)._action_confirm()
+
+
+    def action_confirm(self):
+        result = super(SaleOrder, self).action_confirm()
         for order in self:
-            po = order._get_purchase_orders()
-            if po and len(po)==1:
-                po.button_confirm()
+            if not order.auto_purchase_order_id:
+                po = order._get_purchase_orders()
+                if po and len(po)==1 and po.state!='purchase':
+                    po.button_confirm()
         return result
+
+
+class purchase_order(models.Model):
+
+    _inherit = "purchase.order"
+
+    def button_confirm(self):
+        """ Confirm the inter company sales order."""
+        res = super(purchase_order, self).button_confirm()
+        for order in self:
+            if order.partner_ref and order.state=='purchase':
+                sale_order = order.env['sale.order'].sudo().search([('name','=',order.partner_ref)],limit=1)
+                if sale_order:
+                    sale_order.with_company(sale_order.company_id).action_confirm()
+        return res
+
+
+class ProcurementGroup(models.Model):
+    
+    _inherit = 'procurement.group'
+
+
+    def _get_product_routes(self,product_id):
+        context = dict(self.env.context or {})
+        if context and context.get('sale_order'):
+            SaleOrder = context.get('sale_order')
+            if SaleOrder and SaleOrder.auto_purchase_order_id:
+                return product_id.route_ids.filtered(lambda route: route.company_id.id in [SaleOrder.company_id.id,False]) | product_id.categ_id.total_route_ids.filtered(lambda route: route.company_id.id in [SaleOrder.company_id.id,False])
+            else:
+                return product_id.route_ids | product_id.categ_id.total_route_ids
+        else:
+            return product_id.route_ids | product_id.categ_id.total_route_ids
+
+
+    @api.model
+    def _search_rule(self, route_ids, product_id, warehouse_id, domain):
+        """ First find a rule among the ones defined on the procurement
+        group, then try on the routes defined for the product, finally fallback
+        on the default behavior
+        """
+        if warehouse_id:
+            domain = expression.AND([['|', ('warehouse_id', '=', warehouse_id.id), ('warehouse_id', '=', False)], domain])
+        Rule = self.env['stock.rule']
+        res = self.env['stock.rule']
+        if route_ids:
+            res = Rule.search(expression.AND([[('route_id', 'in', route_ids.ids)], domain]), order='route_sequence, sequence', limit=1)
+        if not res:
+            product_routes = self._get_product_routes(product_id)
+            if product_routes:
+                res = Rule.search(expression.AND([[('route_id', 'in', product_routes.ids)], domain]), order='route_sequence, sequence', limit=1)
+        if not res and warehouse_id:
+            warehouse_routes = warehouse_id.route_ids
+            if warehouse_routes:
+                res = Rule.search(expression.AND([[('route_id', 'in', warehouse_routes.ids)], domain]), order='route_sequence, sequence', limit=1)
+        return res

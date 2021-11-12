@@ -85,7 +85,7 @@ class Picking(models.Model):
     def _set_qty_done(self,picking_movelines,po_picking_movelines):
         for pick_move,po_pick_move in zip(picking_movelines,po_picking_movelines):
             if pick_move.product_id.tracking == 'none' and po_pick_move.product_id.tracking == 'none':
-                if po_pick_move.product_id.id==pick_move.product_id.id and po_pick_move.product_uom_qty==pick_move.product_uom_qty:
+                if po_pick_move.product_id.id==pick_move.product_id.id:
                     po_pick_move.qty_done = pick_move.qty_done
 
 

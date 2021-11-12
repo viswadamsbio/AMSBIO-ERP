@@ -29,10 +29,9 @@ class StockMove(models.Model):
         """
         for rec in self:
             rec.ensure_one()
-            if not rec.next_serial:
-                rec.next_serial = rec.company_id.product_tracking_number
-                rec.action_clear_lines_show_details()
-                rec._generate_serial_numbers()
+            rec.next_serial = rec.company_id.product_tracking_number
+            rec.action_clear_lines_show_details()
+            rec._generate_serial_numbers()
         return True
 
 
