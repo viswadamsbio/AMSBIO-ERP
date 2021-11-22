@@ -153,5 +153,93 @@ for rec in records:
      </record>
     <!--  -->
 
+    <record model="base.automation" id="action_customer_tax_vendor_tax">
+            <field name="name">Customer Taxes and Vendor Taxes</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="state">code</field>
+            <field name="trigger">on_create_or_write</field>
+            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
+            <field name="code">
+companies = env['res.company'].sudo().search([])
+account_sale_tax_id = companies.mapped('account_sale_tax_id')
+account_purchase_tax_id = companies.mapped('account_purchase_tax_id')
+
+for rec in records:
+    rec.write({
+      'taxes_id'  : [(6,0, account_sale_tax_id.ids)],
+      'supplier_taxes_id'  : [(6,0, account_purchase_tax_id.ids)],
+    })
+            </field>
+     </record>
+
+    <!-- https://support.targetintegration.com/issues/7617 -->
+
+    <record model="ir.cron" id="action_cron_create_generate_invoice_post_state">
+            <field name="name">Generate Invoice in post state</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+IrDefault = env['ir.default'].sudo()
+company_id = IrDefault.get('res.config.settings', 'reordering_rule')
+company = env['res.company'].sudo().browse([company_id])
+
+for rec in env['sale.order'].sudo().search([('invoice_status','=','to invoice'),('state','=','sale')]):
+  for picking in rec.picking_ids.filtered(lambda picking: picking.state=='done'):
+    if picking.sale_id and not picking.purchase_id and picking.sale_id.auto_purchase_order_id:
+      invoiceable_lines = rec._get_invoiceable_lines(True)
+      if invoiceable_lines:
+        move = picking.sale_id._create_invoices(final=True)
+        move.action_post()
+        
+  if rec.company_id.id == company.id:
+    invoiceable_lines = rec._get_invoiceable_lines(True)
+    if invoiceable_lines:
+      rec._create_invoices(final=True)
+            </field>
+    </record>
+
+    <record model="ir.cron" id="action_cron_generate_vendor_bill_and_invoice">
+            <field name="name">Generate Vendor Bill and invoice in post state</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="state">code</field>
+            <field name="active" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="doall" eval="False"/>
+            <field name="numbercall">-1</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="code">
+for rec in env['purchase.order'].sudo().search([('invoice_status','=','to invoice'),('state','=','purchase')]):
+  log("%s"%(rec),level='info')
+  for picking in rec.picking_ids.filtered(lambda picking: picking.state=='done'):
+    if picking.sale_id and picking.purchase_id:
+      if picking.purchase_id.invoice_status != 'to invoice':
+        continue
+      move = picking.purchase_id.action_create_invoice()
+      move = env['account.move'].sudo().browse([move.get('res_id',None)])
+      if move:
+          move.write({
+              'ref'           : '%s-%s'%(move.ref,move.id),
+              'invoice_date'  : datetime.datetime.today(),
+          })
+      move.action_post()
+
+      original_so = picking.purchase_id._get_sale_orders()
+      invoiceable_lines = original_so._get_invoiceable_lines(True)
+      if invoiceable_lines:
+        original_mv = original_so._create_invoices(final=True)
+        original_mv.action_post()
+            </field>
+    </record>
+
+<!--  -->
+
+
     </data>
 </odoo>
