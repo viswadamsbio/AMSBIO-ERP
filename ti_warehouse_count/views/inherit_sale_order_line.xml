@@ -15,8 +15,8 @@
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="delivery_time_week" required='1' string="Delivery Time (Weeks)"/>
+                    <field name="target_delivery_date" string="Target Delivery Date"/>
                 </xpath>
-
             </field>
         </record>
 

@@ -5,6 +5,7 @@
 
 from odoo.exceptions import UserError
 from odoo import api, fields, models, SUPERUSER_ID,_
+from datetime import datetime, timedelta
 from logging import getLogger
 _logger = getLogger(__name__)
 from odoo.osv import expression
@@ -112,7 +113,14 @@ class SaleOrder(models.Model):
     _sql_constraints = [('customer_ref_partner_uniq', 'unique (client_order_ref,partner_id)', _('The Customer Reference must be unique per Customer!'))]
 
 
-    delivery_time_week = fields.Integer('Delivery Time (Weeks)',default=1)
+    delivery_time_week = fields.Integer('Delivery Time (Weeks)',default=1,copy=False)
+    target_delivery_date = fields.Datetime(string='Target Delivery Date',copy=False,default=fields.Datetime.now() + timedelta(weeks= 1))
+
+
+    @api.onchange('delivery_time_week','date_order')
+    def _onchange_target_delivery_date(self):
+        for rec in self:
+            rec.target_delivery_date = rec.date_order + timedelta(weeks= rec.delivery_time_week)
 
 
     def _action_confirm(self):
@@ -144,6 +152,19 @@ class purchase_order(models.Model):
                 if sale_order:
                     sale_order.with_company(sale_order.company_id).action_confirm()
         return res
+
+
+    def _prepare_invoice(self):
+        """Prepare the dict of values to create the new invoice for a purchase order.
+        """
+        self.ensure_one()
+
+        invoice_vals = super(purchase_order,self)._prepare_invoice()
+        invoice_vals.update({
+            'partner_bank_id': self.partner_id.bank_ids[:1].filtered(lambda bank:bank.company_id.id == self.company_id.id).id,
+        })
+
+        return invoice_vals
 
 
 class ProcurementGroup(models.Model):
