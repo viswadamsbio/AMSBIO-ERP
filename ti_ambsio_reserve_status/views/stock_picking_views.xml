@@ -23,5 +23,17 @@
                   </xpath>
             </field>
         </record>
+
+        <record id="ti_view_picking_internal_search" model="ir.ui.view">
+            <field name="name">ti.stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group' position='inside'>
+                    <filter string="Reserve Status" name="searched_reserve_status" domain="[]" context="{'group_by': 'searched_reserve_status'}"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

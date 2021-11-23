@@ -6,6 +6,14 @@ from odoo.tools.float_utils import float_compare
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+
+    searched_reserve_status = fields.Selection([
+        ('full', "Fully Ready"),
+        ('partial', "Partially Ready"),
+        ('complete', "Complete"),
+        ('cancel', "Cancelled"),
+    ],string="Reserved Status",help="*Fully Ready: If all the products in the delivery order are reserved.\n*Partially Ready: If some of the products in the delivery order are reserved.")
+
     reserve_status = fields.Selection([
         ('full', "Fully Ready"),
         ('partial', "Partially Ready"),
@@ -30,4 +38,5 @@ class StockPicking(models.Model):
                         status = "partial"
                         break
             picking.reserve_status = status
+            picking.searched_reserve_status = status
 
