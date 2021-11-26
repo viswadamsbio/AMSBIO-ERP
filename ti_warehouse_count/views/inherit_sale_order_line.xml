@@ -16,6 +16,8 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="delivery_time_week" required='1' string="Delivery Time (Weeks)"/>
                     <field name="target_delivery_date" string="Target Delivery Date"/>
+                    <field name='auto_generated' invisible='1'/>
+                    <field name="intercompany_sale_order"  attrs="{'invisible':[('auto_generated','=',False)]}"/>
                 </xpath>
             </field>
         </record>
@@ -50,6 +52,7 @@
 
                 <xpath expr="//field[@name='origin']" position='after'>
                     <field name='client_order_ref'/>
+                    <field name='intercompany_sale_order'/>
                 </xpath>
             </field>
         </record>
@@ -59,6 +62,19 @@
                 <div class="col-auto" name='cust_reference'>
                     <strong>Customer Reference:</strong>
                     <p t-field="o.client_order_ref"/>
+                    <strong>InterCompany Sales Order:</strong>
+                    <p t-field="o.intercompany_sale_order"/>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="ti_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+            <xpath expr="//div[@name='div_sched_date']" position="after">
+                <div class="row justify-content-end" t-if="o.sudo().intercompany_sale_order">
+                    <div class="col-auto">
+                        <strong>InterCompany Sales Order:</strong>
+                        <p t-field="o.sudo().intercompany_sale_order"/>
+                    </div>
                 </div>
             </xpath>
         </template>

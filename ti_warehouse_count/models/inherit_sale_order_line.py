@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from logging import getLogger
 _logger = getLogger(__name__)
 from odoo.osv import expression
+from odoo.tools import float_is_zero, float_compare
 
 
 
@@ -115,6 +116,7 @@ class SaleOrder(models.Model):
 
     delivery_time_week = fields.Integer('Delivery Time (Weeks)',default=1,copy=False)
     target_delivery_date = fields.Datetime(string='Target Delivery Date',copy=False,default=fields.Datetime.now() + timedelta(weeks= 1))
+    intercompany_sale_order = fields.Char('Intercompany Sales Order')
 
 
     @api.onchange('delivery_time_week','date_order')

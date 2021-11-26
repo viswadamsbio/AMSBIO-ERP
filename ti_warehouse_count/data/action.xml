@@ -132,7 +132,8 @@ for rec in records:
   if rec.auto_purchase_order_id:
     original_so = rec.auto_purchase_order_id._get_sale_orders()
     rec.write({
-      'client_order_ref'  : "%s,%s"%(rec.client_order_ref,original_so.client_order_ref or "")
+      'client_order_ref'  : "%s"%(original_so.client_order_ref or ""),
+      'intercompany_sale_order': "%s"%(rec.auto_purchase_order_id.origin or ""),
     })
             </field>
      </record>
@@ -148,6 +149,7 @@ for rec in records:
   if rec.sale_id:
     rec.write({
       'client_order_ref'  : rec.sale_id.client_order_ref,
+      'intercompany_sale_order': "%s"%(rec.sale_id.intercompany_sale_order or "")
     })
             </field>
      </record>
@@ -233,8 +235,7 @@ for rec in env['purchase.order'].sudo().search([('invoice_status','=','to invoic
       original_so = picking.purchase_id._get_sale_orders()
       invoiceable_lines = original_so._get_invoiceable_lines(True)
       if invoiceable_lines:
-        original_mv = original_so._create_invoices(final=True)
-        original_mv.action_post()
+        original_so._create_invoices(final=True)
             </field>
     </record>
 

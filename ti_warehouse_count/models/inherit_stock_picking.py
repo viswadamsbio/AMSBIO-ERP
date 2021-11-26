@@ -72,6 +72,7 @@ class Picking(models.Model):
 
 
     client_order_ref = fields.Char(string='Customer Reference', copy=False)
+    intercompany_sale_order = fields.Char('Intercompany Sales Order')
 
     
     def _get_po_picking_ids(self):
@@ -83,16 +84,24 @@ class Picking(models.Model):
 
 
     def _set_qty_done(self,picking_movelines,po_picking_movelines):
-        for pick_move,po_pick_move in zip(picking_movelines,po_picking_movelines):
-            if pick_move.product_id.tracking == 'none' and po_pick_move.product_id.tracking == 'none':
-                if po_pick_move.product_id.id==pick_move.product_id.id:
+        picking_movelines = list(picking_movelines)
+        po_picking_movelines = list(po_picking_movelines)
+        for po_pick_move in po_picking_movelines:
+            qty_set = 0
+            for pick_move in picking_movelines:
+                if po_pick_move.product_id.id == pick_move.product_id.id:
                     po_pick_move.qty_done = pick_move.qty_done
+                    qty_set = 1
+            if not qty_set:
+                po_pick_move.qty_done = 0
 
+    
 
     def _set_extra_moves(self,picking_movelines,po_picking_movelines):
-        for pick_moveline , po_pick_moveline in zip(picking_movelines, po_picking_movelines):
-            for po_moveline in po_pick_moveline.mapped('move_line_ids')[len(pick_moveline.mapped('move_line_ids')):]:
-                po_moveline.qty_done = 0
+        for pick_moveline in picking_movelines:
+            for po_pick_moveline in po_picking_movelines:
+                for po_moveline in po_pick_moveline.mapped('move_line_ids')[len(pick_moveline.mapped('move_line_ids')):]:
+                    po_moveline.qty_done = 0
 
 
 
@@ -117,29 +126,3 @@ class Picking(models.Model):
 
         res = super(Picking,self).button_validate()
         return res
-
-
-    # def _action_done(self):
-    #     res = super(Picking,self)._action_done()
-    #     self = self.with_user(SUPERUSER_ID)
-    #     for picking in self:
-    #         move = None
-    #         if picking.sale_id and not picking.purchase_id and picking.sale_id.auto_purchase_order_id:
-    #             move = picking.sale_id._create_invoices(final=True)
-    #             move.action_post()
-    #         elif picking.sale_id and picking.purchase_id:
-    #             move = picking.purchase_id.action_create_invoice()
-    #             move = self.env['account.move'].sudo().browse([move.get('res_id',None)])
-    #             if move:
-    #                 move.write({
-    #                     'ref'           : '%s-%s'%(move.ref,move.id),
-    #                     'invoice_date'  : fields.Date.today(),
-    #                 })
-    #             move.action_post()
-
-    #             original_so = picking.purchase_id._get_sale_orders()
-    #             original_mv = original_so._create_invoices(final=True)
-    #             original_mv.action_post()
-    #     return res
-
-
