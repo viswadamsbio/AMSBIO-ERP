@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="action_report_delivery_US" model="ir.actions.report">
+            <field name="name">Delivery Slip - US</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">customTemplate.report_deliveryslip_US</field>
+            <field name="report_file">customTemplate.report_deliveryslip_US</field>
+            <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_report_delivery_CHF" model="ir.actions.report">
+            <field name="name">Delivery Slip - CHF</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">customTemplate.report_deliveryslip_CHF</field>
+            <field name="report_file">customTemplate.report_deliveryslip_CHF</field>
+            <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_report_delivery_BV" model="ir.actions.report">
+            <field name="name">Delivery Slip - BV</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">customTemplate.report_deliveryslip_BV</field>
+            <field name="report_file">customTemplate.report_deliveryslip_BV</field>
+            <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

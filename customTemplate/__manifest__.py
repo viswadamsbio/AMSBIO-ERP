@@ -16,7 +16,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'stock'],
 
     # always loaded
     'data': [
@@ -26,5 +26,6 @@
         'views/PurchaseOrderTemplate.xml',
         'views/RemittanceTemplate.xml',
         'views/RFQTemplate.xml',
+        'views/stock_report.xml'
     ],
 }
