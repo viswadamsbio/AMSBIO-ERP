@@ -68,24 +68,31 @@
             </xpath>
         </template>
 
-        <template id="ti_report_delivery_document_inherit" inherit_id="stock.report_delivery_document" priority="30">
+        <template id="ti_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
             <xpath expr="//div[@class='row mt32 mb32']" position="inside">
                 <div class="row justify-content-end" t-if="o.sudo().intercompany_sale_order">
                     <div class="col-auto">
                         <strong>InterCompany Sales Order:</strong>
                         <p t-field="o.sudo().intercompany_sale_order"/>
                     </div>
-                </div>               
-            </xpath>
-<!--             <xpath expr="//div[@name='div_sched_date']" position="after">
-                <div class="row justify-content-end" t-if="o.sudo().intercompany_sale_order">
-                    <div class="col-auto">
-                        <strong>InterCompany Sales Order:</strong>
-                        <p t-field="o.sudo().intercompany_sale_order"/>
-                    </div>
                 </div>
-            </xpath> -->
+            </xpath>
         </template>
+
+
+        <record id="ti_product_template_form_view" model="ir.ui.view">
+            <field name="name">ti.product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="inside">
+                    <div>
+                        <field name="is_eu_supplier"/>
+                        <label for="is_eu_supplier"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </odoo>

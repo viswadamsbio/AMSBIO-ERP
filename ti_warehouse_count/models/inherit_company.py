@@ -17,6 +17,8 @@ class ResCompany(models.Model):
     
     product_tracking_number = fields.Char('Product Tracking Number',default='1')
 
+    route_id = fields.Many2one('stock.location.route', string='Route', domain=[('sale_selectable', '=', True)], ondelete='restrict', check_company=True)
+
 
 class StockMove(models.Model):
     _inherit = "stock.move"
@@ -69,3 +71,18 @@ class StockMove(models.Model):
         self.write({'move_line_ids': move_lines_commands})
         self.company_id.product_tracking_number = '%s%s%s' % (prefix,str(int(self.company_id.product_tracking_number)+1 + i).zfill(padding),suffix)
         return True
+
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+
+    type = fields.Selection(
+        [('contact', 'Contact'),
+         ('invoice', 'Invoice Address'),
+         ('delivery', 'Delivery Address'),
+         ('other', 'Other Address'),
+         ("private", "Broker"),
+        ], string='Address Type',
+        default='contact',
+        help="Invoice & Delivery addresses are used in sales orders.")
