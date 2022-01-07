@@ -192,87 +192,87 @@
     <template id="report_deliverynote_document_inherit_US" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
-                <div class="col-4">
-                    <h6 style="margin-left: -2px;">
-                        <span style="color: #fff;">.</span>
-                        <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-                    </h6>
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMSBIO LLC <br />
+                            1035, CAMBRIDGE STREET, <br />
+                            Suite 16 B, <br />
+                            CAMBRIDGEMassachusetts (US)02141 <br />
+                            United States
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: 	US27-5243412</div>
+                            <div>Email: sales-llc@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" /> +16179455033</div>
+                        </h6>
+                    </div>
                 </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        AMSBIO LLC <br />
-                        1035, CAMBRIDGE STREET, <br />
-                        Suite 16 B, <br />
-                        CAMBRIDGEMassachusetts (US)02141 <br />
-                        United States
-                    </h6>
-                </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        <div>VAT reg. no.: 	US27-5243412</div>
-                        <div>Email: sales-llc@amsbio.com</div>
-                        <div><i class="fa fa-phone fa-fw" /> +16179455033</div>
-                    </h6>
-                </div>
-            </div>
         </xpath>
     </template>
 
     <template id="report_deliverynote_document_inherit_CHF" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
-                <div class="col-4">
-                    <h6 style="margin-left: -2px;">
-                        <span style="color: #fff;">.</span>
-                        <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-                    </h6>
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMS Biotechnology (Europe) Limited (CH) <br />
+                            Via Lisano 3, <br />
+                            (CP 683)<br />
+                            MassagnoCH-6900 <br />
+                            Switzerland
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: CHE-102.073.068 MWST</div>
+                            <div>Email: sales@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />  +41 91 6045522</div>
+                        </h6>
+                    </div>
                 </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        AMS Biotechnology (Europe) Limited (CH) <br />
-                        Via Lisano 3, <br />
-                        (CP 683)<br />
-                        MassagnoCH-6900 <br />
-                        Switzerland
-                    </h6>
-                </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        <div>VAT reg. no.: CHE-102.073.068 MWST</div>
-                        <div>Email: sales@amsbio.com</div>
-                        <div><i class="fa fa-phone fa-fw" />  +41 91 6045522</div>
-                    </h6>
-                </div>
-            </div>
         </xpath>
     </template>
 
     <template id="report_deliverynote_document_inherit_BV" inherit_id="report_deliverynote_document_inherit" primary="True">
         <xpath expr="//t/div[1]/div" position="replace">
             <div class="row">
-                <div class="col-4">
-                    <h6 style="margin-left: -2px;">
-                        <span style="color: #fff;">.</span>
-                        <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-                    </h6>
+                    <div class="col-4">
+                        <h6 style="margin-left: -2px;">
+                            <span style="color: #fff;">.</span>
+                            <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            AMSBIO Europe BV<br/>	
+                            Joop Geesinkweg 841,<br/>
+                            Amsterdam 1114,<br/>
+                            Netherlands
+                        </h6>
+                    </div>
+                    <div class="col-4 text-left">
+                        <h6>
+                            <div>VAT reg. no.: NL863058681B01<span/></div>
+                            <div >EORI: NL863058681<span /></div>
+                            <div>Email: eurosales@amsbio.com</div>
+                            <div><i class="fa fa-phone fa-fw" />+31 72 808 0244</div>
+                        </h6>
+                    </div>
                 </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        AMSBIO Europe BV<br/>	
-                        Joop Geesinkweg 841,<br/>
-                        Amsterdam 1114,<br/>
-                        Netherlands
-                    </h6>
-                </div>
-                <div class="col-4 text-left">
-                    <h6>
-                        <div>VAT reg. no.: NL863058681B01<span/></div>
-                        <div >EORI: NL863058681<span /></div>
-                        <div>Email: eurosales@amsbio.com</div>
-                        <div><i class="fa fa-phone fa-fw" />+31 72 808 0244</div>
-                    </h6>
-                </div>
-            </div>
         </xpath>
     </template>
 
