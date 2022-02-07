@@ -84,7 +84,8 @@
                         <tr>
                             <th name="th_codenum" class="text-left"><span>Code</span></th>
                             <th name="th_description" class="text-left"><span>Description</span></th>
-                            <th name="th_storage" class="text-left">
+                            <th name="th_packsize" class="text-left" style="max-width: 20px;"><span>Packsize</span></th>
+                            <th name="th_storage" class="text-left" style="max-width: 20px;">
                                 <span>Storage Condition</span>
                             </th>
                             <th name="th_shipping" class="text-left">
@@ -107,7 +108,10 @@
                             <td name="stock_line_name" style="max-width: 125px;">
                                 <span t-field="line.name" t-options="{'widget': 'text'}" />
                             </td>
-                            <td name="td_storage" class="text-left o_price_total">
+                            <td name="stock_line_packsize" style="max-width: 20px;">
+                                <span t-field="line.x_studio_packsize" t-options="{'widget': 'text'}" />
+                            </td>
+                            <td name="td_storage" class="text-left o_price_total" style="max-width: 20px;">
                                 <span t-field="line.product_id.x_studio_storage_temperature"/>
                             </td>
                             <td name="td_shipping" class="text-left o_price_total">

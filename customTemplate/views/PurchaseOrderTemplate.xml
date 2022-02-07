@@ -79,6 +79,7 @@
                         <thead>
                             <tr>
                                 <th name="th_description"><strong>Description</strong></th>
+                                <th name="th_packsize"><strong>Packsize</strong></th>
                                 <th name="th_taxes"><strong>Taxes</strong></th>
                                 <th name="th_date_req" class="text-center"><strong>Lot ID</strong></th>
                                 <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
@@ -99,6 +100,9 @@
                                     <t t-if="not line.display_type">
                                         <td id="product">
                                             <span t-field="line.name" />
+                                        </td>
+                                        <td id="packsize">
+                                            <span t-field="line.x_studio_packsize" />
                                         </td>
                                         <td name="td_taxes" class="text-right"><span
                                                 t-esc="str('%.0f'%line.taxes_id.amount)" />%
