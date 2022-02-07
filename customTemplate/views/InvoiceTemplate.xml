@@ -239,11 +239,18 @@
                             </div>
                         </div>
                         <div t-if="o.company_id.country_id.name == 'Netherlands'" class="row">
-                            <div class="col-12">
+                            <div class="col-3">
+                                
+                            </div>
+                            <div class="col-6">
                                 AMSBIO Europe BV<br />
                                 Company registered in the Netherlands.<br />
                                 Goods remain the property of AMSBIO Europe BV until paid for in full<br />
                                 Page: <span class="page" /> / <span class="topage" />
+                            </div>
+                            <div class="col-3">
+                                <img t-att-src="'/customTemplate/static/img/MicrosoftTeams-image.png'" class="text-right"
+                                    style="max-width: 150px; max-height: 70px; margin-top: 2px;" />
                             </div>
                         </div>
                         <div t-else="" class="row">
