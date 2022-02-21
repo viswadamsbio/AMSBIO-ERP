@@ -166,7 +166,7 @@
                                         <span t-field="line.discount" />
                                     </td>
                                     <td style="width: 70px;" name="td_subtotal" class="text-right o_price_total">
-                                        <span t-field="line.price_total" />
+                                        <span t-field="line.price_subtotal" />
                                     </td>
                                 </t>
                                  <t t-if="line.display_type == 'line_section'">
