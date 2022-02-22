@@ -117,7 +117,7 @@
                                                 t-options="{'widget': 'text'}" /></td>
                                         <td name="account_invoice_line_name" style="width: 450px;"><span t-field="line.name"
                                                 t-options="{'widget': 'text'}" /></td>
-                                        <td name="td_country" class="text-right" style="width: 70px;"><span t-field="line.intrastat_product_origin_country_id" t-options="{'widget': 'text'}"/></td>
+                                        <!-- <td name="td_country" class="text-right" style="width: 70px;"><span t-field="line.intrastat_product_origin_country_id" t-options="{'widget': 'text'}"/></td> -->
                                         <td class="text-right" style="width: 60px;">
                                             <span t-field="line.quantity" />
                                             <span t-field="line.product_uom_id" groups="uom.group_uom" />
