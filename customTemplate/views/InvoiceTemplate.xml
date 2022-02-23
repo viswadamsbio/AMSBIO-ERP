@@ -78,7 +78,7 @@
                         <thead>
                             <tr>
                                 <th name="th_codenum" class="text-left" style="width: 115px;"><span>Code</span></th>
-                                <th name="th_description" class="text-left" style="width: 435px;"><span>Description</span></th>
+                                <th name="th_description" class="text-left" style="width: 415px;"><span>Description</span></th>
                                 <th name="th_country" class="text-right" style="width: 70px;"><span>Origin Country</span></th>
                                 <th name="th_quantity" class="text-right" style="width: 60px;"><span>Quantity</span></th>
                                 <th name="th_priceunit" style="width: 65px;"
@@ -115,7 +115,7 @@
                                     <t t-if="not line.display_type" name="account_invoice_line_accountable">
                                         <td name="account_invoice_line_name" style="width: 115px;"><span t-field="line.product_id.default_code"
                                                 t-options="{'widget': 'text'}" /></td>
-                                        <td name="account_invoice_line_name" style="width: 435px;"><span t-field="line.name"
+                                        <td name="account_invoice_line_name" style="width: 415px;"><span t-field="line.name"
                                                 t-options="{'widget': 'text'}" /></td>
                                         <!-- <td name="td_country" class="text-right" style="width: 70px;"><span t-field="line.intrastat_product_origin_country_id" t-options="{'widget': 'text'}"/></td> -->
                                         <td class="text-right" style="width: 60px;">
