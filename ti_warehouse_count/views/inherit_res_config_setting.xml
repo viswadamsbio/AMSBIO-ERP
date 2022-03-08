@@ -73,7 +73,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="ti_view_company_inter_change_inherit_form">
+<!--         <record model="ir.ui.view" id="ti_view_company_inter_change_inherit_form">
             <field name="name">res.company.form.inherit</field>
             <field name="inherit_id" ref="account_inter_company_rules.view_company_inter_change_inherit_form"/>
             <field name="model">res.company</field>
@@ -86,5 +86,5 @@
                     </group>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 </odoo>
