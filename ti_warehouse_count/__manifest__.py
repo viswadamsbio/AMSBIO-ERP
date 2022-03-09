@@ -8,8 +8,10 @@
   "website"              :  "http://www.targetintegration.com",
   "description"          :  """Count Warehouse product quantity with odoo""",
   "depends"              :  [
+                             'base_automation',
                              'sale_management',
                              'stock',
+                             'sale_purchase_inter_company_rules',
                             ],
   "data"                 :  [
                               

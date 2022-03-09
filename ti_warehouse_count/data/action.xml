@@ -23,7 +23,6 @@ if records:
             <field name="model_id" ref="product.model_product_template"/>
             <field name="state">code</field>
             <field name="trigger">on_create</field>
-            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 IrDefault = env['ir.default'].sudo()
 companies_ids = IrDefault.get('res.config.settings', 'vendor_pricelist_company_ids')
@@ -81,7 +80,6 @@ for rec in env['product.template'].sudo().search([('is_vendor_updated','=',False
             <field name="model_id" ref="product.model_product_template"/>
             <field name="state">code</field>
             <field name="trigger">on_create</field>
-            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 IrDefault = env['ir.default'].sudo()
 company_id = IrDefault.get('res.config.settings', 'reordering_rule')
@@ -141,7 +139,6 @@ for rec in env['product.template'].sudo().search([('is_reordering_updated','=',F
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="state">code</field>
             <field name="trigger">on_create_or_write</field>
-            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 for rec in records:
   if rec.auto_purchase_order_id:
@@ -167,7 +164,6 @@ for rec in records:
             <field name="model_id" ref="stock.model_stock_picking"/>
             <field name="state">code</field>
             <field name="trigger">on_create_or_write</field>
-            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 for rec in records:
   if rec.sale_id:
@@ -184,7 +180,6 @@ for rec in records:
             <field name="model_id" ref="product.model_product_template"/>
             <field name="state">code</field>
             <field name="trigger">on_create_or_write</field>
-            <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>
             <field name="code">
 companies = env['res.company'].sudo().search([])
 account_sale_tax_id = companies.mapped('account_sale_tax_id')
