@@ -127,9 +127,11 @@
                             <td name="td_subtotal" class="text-right">
                                 <span t-field="line.sale_line_id.price_subtotal" t-options="{'widget': 'monetary'}" />
                             </td>
-                            <td name="td_notes" class="text-left">
-                                <span t-field="line.note" t-options="{'widget': 'text'}"/>
-                            </td>
+                            <t t-if="line.sale_line_id.display_type == 'line_note'">
+                                <td name="td_note_line" colspan="99">
+                                    <span t-field="line.sale_line_id.name"/>
+                                </td>
+                            </t>
                         </tr>
                     </tbody>
                 </table>
