@@ -49,7 +49,7 @@
                     </div>
                     <br />
                     <h2 class="mt16">
-                        <span t-if="o.move_type == 'out_refund'">Credit Note</span>
+                    <span t-if="o.move_type == 'out_refund'">Credit Note</span>
                         <span t-else="" >Invoice</span>
                         <span t-field="o.name" />
                     </h2>
@@ -57,7 +57,12 @@
                     <div class="row mt32 mb32" id="informations">
                         <div t-if="o.invoice_date" class="col-auto col-3 mw-100 mb-2">
                             <strong>Invoice Date:</strong>
-                            <p class="m-0" t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                            <t t-if="o.company_id.country_id.name == 'United States'">
+                                <p class="m-0" t-field="o.invoice_date" t-field-options='{"format": "MM-dd-yyyy"}' t-options='{"widget": "date"}' />
+                            </t>
+                            <t t-else="" >
+                                <p class="m-0" t-field="o.invoice_date" t-field-options='{"format": "dd-MM-yyyy"}' t-options='{"widget": "date"}' />
+                            </t>
                         </div>
                         <div t-if="o.invoice_origin" class="col-auto col-3 mw-100 mb-2">
                             <strong>Order No:</strong>
