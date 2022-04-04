@@ -912,8 +912,8 @@
                         </strong>
                         <br />
                         <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
-                            <span t-field="doc.pricelist_id" />
-                            <t t-if="doc.pricelist_id == 'Sales Pricelist GBP (GBP)'">
+                            <span t-field="doc.pricelist_id.name" />
+                            <t t-if="doc.pricelist_id.name == 'Sales Pricelist GBP (GBP)'">
                                 <p>
                                     HSBC Bank plc, 65 Cornmarket Street, Oxford, OX1 3HY- UK. <br />
                                     IBAN : GB20HBUK40353451723014 <br />
@@ -923,7 +923,7 @@
                                     Account name : AMS Biotechnology (Europe) Limited
                                 </p>
                             </t>
-                            <t t-if="doc.pricelist_id == 'Sales Pricelist ROW (USD)'">
+                            <t t-if="doc.pricelist_id.name == 'Sales Pricelist ROW (USD)'">
                                <p>
                                     HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
                                     IBAN: GB03HBUK40127673806781 <br />
