@@ -49,7 +49,7 @@
                     </div>
                     <br />
                     <h2 class="mt16">
-                    <span t-if="o.move_type == 'out_refund'">Credit Note</span>
+                        <span t-if="o.move_type == 'out_refund'">Credit Note</span>
                         <span t-else="" >Invoice</span>
                         <span t-field="o.name" />
                     </h2>

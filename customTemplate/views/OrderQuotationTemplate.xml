@@ -912,13 +912,26 @@
                         </strong>
                         <br />
                         <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
-                            <p>
-                                HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
-                                IBAN: GB03HBUK40127673806781 <br />
-                                SWIFT code (BIC):HBUKGB4B <br />
-                                Sort code: 40 12 76 <br />
-                                Account number: 73806781 <br />
-                            </p>
+                            <span t-field="doc.pricelist_id" />
+                            <t t-if="doc.pricelist_id == 'Sales Pricelist GBP (GBP)'">
+                                <p>
+                                    HSBC Bank plc, 65 Cornmarket Street, Oxford, OX1 3HY- UK. <br />
+                                    IBAN : GB20HBUK40353451723014 <br />
+                                    SWIFT code (BIC) : HBUKGB4108P <br />
+                                    Sort code: 40-35-34 <br />
+                                    Account number: 51723014 <br />
+                                    Account name : AMS Biotechnology (Europe) Limited
+                                </p>
+                            </t>
+                            <t t-if="doc.pricelist_id == 'Sales Pricelist ROW (USD)'">
+                               <p>
+                                    HSBC Bank plc, International Branch, 27-32 Poultry, London EC2P 2BX – U.K. <br />
+                                    IBAN: GB03HBUK40127673806781 <br />
+                                    SWIFT code (BIC):HBUKGB4B <br />
+                                    Sort code: 40 12 76 <br />
+                                    Account number: 73806781 <br />
+                                </p>
+                            </t>
                             <p>We also accept payment by Visa &amp; Mastercard.</p>
                         </div>
                         <div t-if="doc.company_id.country_id.name == 'United States'">
