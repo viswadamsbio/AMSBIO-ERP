@@ -57,7 +57,12 @@
                     <div class="row mt32 mb32" id="informations">
                         <div t-if="o.invoice_date" class="col-auto col-3 mw-100 mb-2">
                             <strong>Invoice Date:</strong>
-                            <p class="m-0" t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                            <t t-if="o.company_id.country_id.name == 'United States'">
+                                <p class="m-0" t-field="o.invoice_date" t-options='{"widget": "date", "format": "MM-dd-yyyy"}' />
+                            </t>
+                            <t t-else="" >
+                                <p class="m-0" t-field="o.invoice_date" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                            </t>
                         </div>
                         <div t-if="o.invoice_origin" class="col-auto col-3 mw-100 mb-2">
                             <strong>Order No:</strong>
@@ -188,7 +193,14 @@
                     </div>
                     <div class="oe_structure" />
                     <br />
-                    <strong>PAYMENT IS DUE BY: <span t-field="o.invoice_date_due" /></strong>
+                    <strong>PAYMENT IS DUE BY: 
+                        <t t-if="o.company_id.country_id.name == 'United States'">
+                            <p class="m-0" t-field="o.invoice_date_due" t-options='{"widget": "date", "format": "MM-dd-yyyy"}' />
+                        </t>
+                        <t t-else="" >
+                            <p class="m-0" t-field="o.invoice_date_due" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
+                        </t>
+                    </strong> 
                     <br />
                     <br />
                     <p><strong>Please remit cheques to the above address.<br />Bank transfers may be made to:</strong></p>
