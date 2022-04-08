@@ -27,6 +27,7 @@ class IrUiMenu(models.Model):
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
                 pass
+        _logger.info("~~~~~~~~~~menu_ids~~~~~~~~%r~~~~~~~~~~~~~~~~~",menu_ids)
         return menu_ids
 
 
@@ -36,10 +37,11 @@ class IrUiMenu(models.Model):
     def _visible_menu_ids(self, debug=False):
         """ Return the ids of the menu items visible to the user. """
         res = super(IrUiMenu, self)._visible_menu_ids(debug=debug)
-
+        _logger.info("~~~~~~~~~~res~~~~~~~~%r~~~~~~~~~~~~~~~~~",res)
         to_remove_menu_ids = self.hide_ti_menus_to_user(menu_data=res)
+        _logger.info("~~~~~~~~~~to_remove_menu_ids~~~~~~~~%r~~~~~~~~~~~~~~~~~",to_remove_menu_ids)
         res = res - set(to_remove_menu_ids)
-
+        _logger.info("~~~~~~~~~~Final~~~~~~~~%r~~~~~~~~~~~~~~~~~",res)
         return res
 
 
