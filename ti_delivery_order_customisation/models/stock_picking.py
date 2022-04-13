@@ -19,11 +19,8 @@ class StockPicking(models.Model):
         """
         for picking in self:
             order_reference = picking.intercompany_sale_order or picking.origin
-            _logger.info(f"\n==>Order Reference: {order_reference}\n")
             order = self.env["sale.order"].sudo().search([('name', '=', order_reference)], limit=1)
             if order:
-                _logger.info(f"\n==>Sale Order: {order.name}\n")
-                _logger.info(f"\n==>Order lines: {order.order_line.ids}\n")
                 # Traverse through the order lines of the origin sale order and create amsbio.order.line records to store their detail
                 lines = []
                 for line in order.order_line:
@@ -31,12 +28,12 @@ class StockPicking(models.Model):
                         'price_unit': line.price_unit,
                         'product_description': line.name,
                         'quantity': line.product_uom_qty,
-                        'price_subtotal': line.price_subtotal
+                        'price_subtotal': line.price_subtotal,
+                        'order_reference': order.name,
+                        'display_type': line.display_type
                     }
                     lines.append(vals)
                 order_line_ids = self.env["amsbio.order.line"].create(lines)
-                _logger.info(f"\n==>Order lines Details: {order_line_ids}\n")
                 picking.amsbio_order_line_ids = [(6, 0, order_line_ids.ids)]
             else:
-                _logger.info(f"\n==>No Sale Order Found!!\n")
                 picking.amsbio_order_line_ids = False

@@ -6,12 +6,13 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='note']" position="inside">
-                <field name="amsbio_order_line_ids">
+                <field name="amsbio_order_line_ids" attrs="{'invisible': [('amsbio_order_line_ids', '=', [])]}">
                     <tree>
                         <field name="product_description"/>
                         <field name="quantity" optional="hide"/>
                         <field name="price_unit" optional="hide"/>
                         <field name="price_subtotal"/>
+                        <field name="order_reference" optional="hide"/>
                     </tree>
                     <form>
                         <group>
