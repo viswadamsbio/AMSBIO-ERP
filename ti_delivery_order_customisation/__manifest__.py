@@ -7,10 +7,11 @@
     'website'       : "http://www.targetintegration.com",
     'category'      : "Inventory/Inventory",
     'depends'       : [
-                        "ti_warehouse_count"
+                        "ti_warehouse_count", "customTemplate"
                     ],
     'data'          : [
                         "security/ir.model.access.csv",
-                        "views/stock_picking_views.xml"
+                        "views/stock_picking_views.xml",
+                        "views/delivery_report_document_inherit.xml"
                     ]
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ti_delivery_order_line" inherit_id="customTemplate.report_deliverynote_document_inherit">
+        <xpath expr="//table[@name='stock_line_table']/tbody[hasclass('tbody')]" position="inside">
+            <!-- Here we will print only sections and notes in the last of the table  -->
+            <t t-if="print_sections_notes">
+                <!-- Filter all the sections and notes  -->
+                <t t-set="sections_notes" t-value="o.amsbio_order_line_ids.filtered('display_type')"/>
+                <t t-if="sections_notes">
+                    <tr t-foreach="sections_notes" t-as="note">
+                        <t t-if="note.display_type == 'line_section'">
+                            <td name="td_section_line" colspan="99">
+                                <span t-field="note.product_description"/>
+                            </td>
+                        </t>
+                        <t t-if="note.display_type == 'line_note'">
+                            <td name="td_note_line" colspan="99">
+                                <span t-field="note.product_description"/>
+                            </td>
+                        </t>
+                    </tr>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Check if the company of the report and origin sale order matches -->
+
+    <template id="ti_deliverynote_uk_inherit" inherit_id="customTemplate.report_deliverynote_document_inherit_UK">
+        <xpath expr="//div[hasclass('row')]" position="inside">
+            <t t-if="o.amsbio_order_line_ids">
+                <t t-set="so_reference" t-value="o.amsbio_order_line_ids.mapped('order_reference')[0]"/>
+                <t t-if="so_reference and so_reference.startswith('UK-')">
+                    <t t-set="print_sections_notes" t-value="True"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="ti_deliverynote_us_inherit" inherit_id="customTemplate.report_deliverynote_document_inherit_US">
+        <xpath expr="//div[hasclass('row')]" position="inside">
+            <t t-if="o.amsbio_order_line_ids">
+                <t t-set="so_reference" t-value="o.amsbio_order_line_ids.mapped('order_reference')[0]"/>
+                <t t-if="so_reference and so_reference.startswith('US-')">
+                    <t t-set="print_sections_notes" t-value="True"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="ti_deliverynote_chf_inherit" inherit_id="customTemplate.report_deliverynote_document_inherit_CHF">
+        <xpath expr="//div[hasclass('row')]" position="inside">
+            <t t-if="o.amsbio_order_line_ids">
+                <t t-set="so_reference" t-value="o.amsbio_order_line_ids.mapped('order_reference')[0]"/>
+                <t t-if="so_reference and so_reference.startswith('CH-')">
+                    <t t-set="print_sections_notes" t-value="True"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="ti_deliverynote_bv_inherit" inherit_id="customTemplate.report_deliverynote_document_inherit_BV">
+        <xpath expr="//div[hasclass('row')]" position="inside">
+            <t t-if="o.amsbio_order_line_ids">
+                <t t-set="so_reference" t-value="o.amsbio_order_line_ids.mapped('order_reference')[0]"/>
+                <t t-if="so_reference and so_reference.startswith('NL-')">
+                    <t t-set="print_sections_notes" t-value="True"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -11,3 +11,9 @@ class AmsbioOrderLine(models.Model):
     quantity = fields.Float()
     price_unit = fields.Float("Unit Price")
     price_subtotal = fields.Float("Subtotal")
+
+    # Information about the sale order 
+    order_reference = fields.Char("Sale Order Reference")
+    display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
