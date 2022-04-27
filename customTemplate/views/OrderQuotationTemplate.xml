@@ -18,12 +18,21 @@
                         </h6>
                     </div>
                     <div class="col-4 text-left">
-                        <h6>
-                            <div>VAT reg. no.: <span t-field="doc.company_id.partner_id.vat" /></div>
-                            <div>EORI: <span t-field="doc.company_id.x_studio_eori" /></div>
-                            <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
-                            <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
-                        </h6>
+                        <t t-if="o.company_id.country_id.name == 'United States'">
+                        
+                            <h6>
+                                <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
+                                <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
+                            </h6>
+                        </t>
+                        <t t-else="" >
+                            <h6>
+                                <div>VAT reg. no.: <span t-field="doc.company_id.partner_id.vat" /></div>
+                                <div>EORI: <span t-field="doc.company_id.x_studio_eori" /></div>
+                                <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
+                                <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
+                            </h6>
+                        </t>
                     </div>
                 </div>
                 <hr />
