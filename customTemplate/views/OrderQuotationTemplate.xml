@@ -921,6 +921,7 @@
                         </strong>
                         <br />
                         <div t-if="doc.company_id.country_id.name == 'United Kingdom'">
+                            <span t-field="doc.pricelist_id" />
                             <t t-if="doc.pricelist_id.name == 'Sales Pricelist GBP'">
                                 <p>
                                     HSBC Bank plc, 65 Cornmarket Street, Oxford, OX1 3HY- UK. <br />
