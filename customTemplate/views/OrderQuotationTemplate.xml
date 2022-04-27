@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-4 text-left">
                         <h6>
-                            <div t-if="o.company_id.country_id.name == 'United States'">
+                            <div t-if="doc.company_id.country_id.name == 'United States'">
                                 <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
                                 <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
                             </div>
