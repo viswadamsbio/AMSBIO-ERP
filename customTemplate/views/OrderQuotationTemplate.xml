@@ -19,7 +19,6 @@
                     </div>
                     <div class="col-4 text-left">
                         <t t-if="o.company_id.country_id.name == 'United States'">
-                        
                             <h6>
                                 <div>Email: <span t-field="doc.company_id.partner_id.email" /></div>
                                 <div><i class="fa fa-phone fa-fw" /><span t-field="doc.company_id.partner_id.phone" /></div>
