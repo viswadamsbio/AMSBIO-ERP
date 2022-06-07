@@ -12,6 +12,14 @@ class Account_Payment(models.Model):
     _inherit = 'account.payment'
 
     def action_generate_fedwire_payment(self):
+        #Fedwire code is important to print USD report, if any record doesn't have fedwire code, we need to raise an error
+        for record in self:
+            if record.partner_id.supplier_rank and not record.partner_id.fedwire_code:
+                raise UserError(_(f"Please make sure vendor has Fedwire Code. Missing code for {record.partner_id.name}"))
+
+            if record.partner_id.supplier_rank and not record.partner_bank_id:
+                raise UserError(_(f"Missing Recipient Bank Account for payment {record.name}"))
+
         payment_date = set(self.mapped('date'))
         if len(payment_date) >= 2:
             raise UserError(_('Please Select Payments with same date.'))

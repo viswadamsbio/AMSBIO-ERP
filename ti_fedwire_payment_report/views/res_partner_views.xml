@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ti_fedwire_partner_view_form_inherit" model="ir.ui.view">
+        <field name="name">ti.fedwire.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="supplier_rank" invisible="1"/>
+                <field name="fedwire_code"  attrs="{'invisible': [('supplier_rank', '=', 0)], 'required': [('supplier_rank', '!=', 0)]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>
