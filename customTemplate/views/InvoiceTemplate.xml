@@ -199,14 +199,14 @@
                     </div>
                     <div class="oe_structure" />
                     <br />
-                    <strong>PAYMENT IS DUE BY: 
+                    <!-- <strong>PAYMENT IS DUE BY: 
                         <t t-if="o.company_id.country_id.name == 'United States'">
                             <p class="m-0" t-field="o.invoice_date_due" t-options='{"widget": "date", "format": "MM-dd-yyyy"}' />
                         </t>
                         <t t-else="" >
                             <p class="m-0" t-field="o.invoice_date_due" t-options='{"widget": "date", "format": "dd-MM-yyyy"}' />
                         </t>
-                    </strong> 
+                    </strong>  -->
                     <br />
                     <br />
                     <p><strong>Please remit cheques to the above address.<br />
